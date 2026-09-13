@@ -53,7 +53,7 @@ local MISSING_ENCHANTS = {
 	false,		-- 14: Trinket 2
 	false,		-- 15: Back
 	E.Retail,	-- 16: Main Hand
-	false		-- 17: Off Hand
+	E.Retail	-- 17: Off Hand
 }
 
 function E:InspectGearSlot(line, lineText, slotInfo, slot, lastLine)
@@ -90,6 +90,8 @@ function E:InspectGearSlot(line, lineText, slotInfo, slot, lastLine)
 		slotInfo.enchantColors[2] = g
 		slotInfo.enchantColors[3] = b
 	elseif lastLine and not slotInfo.enchantText and (db.showMissing and MISSING_ENCHANTS[slot]) then
+		if slot == 17 and not C_PaperDollInfo.OffhandHasWeapon() then return end -- skip if weapon is not equipped
+
 		slotInfo.enchantText = MISSING_RED
 		slotInfo.enchantTextShort = MISSING_RED
 		slotInfo.enchantTextReal = nil
